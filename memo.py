@@ -66,7 +66,7 @@ def deleteDouble(path, saves):
         if i == 0:
             continue
         if saves[i-1][:3] == saves[i][:3]:
-            if saves[i][4:6] == "12" and (saves[i-1][4:6] == "01" or saves[i-1][4:6] == "00"):
+            if saves[i][4:6] == "12" and saves[i-1][4:6] == "01":
                 ui.addText("entferne " + saves[i] + " behalte " + saves[i-1])
                 if doIt:
                     shutil.rmtree(path + saves[i])
@@ -74,13 +74,9 @@ def deleteDouble(path, saves):
                 ui.addText("entferne " + saves[i-1] + " behalte " + saves[i])
                 if doIt:
                     shutil.rmtree(path + saves[i-1])
-            if saves[i-1][4:6] == "00"
-                ui.addText("entferne " + saves[i-1]
-                if doIt:
-                    shutil.rmtree(path + saves[i-1])
 
 def copyTo(fromPath, aSave, toPath):
-        if not os.path.exists(toPath + "\\" + aSave):
+        if not os.path.exists(toPath + "\\" + aSave) and (aSave[4:6] == "01" or aSave[4:6] == "02"):
             ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
             if doIt:
                 shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
