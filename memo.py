@@ -66,7 +66,7 @@ def deleteDouble(path, saves):
         if i == 0:
             continue
         if saves[i-1][:3] == saves[i][:3]:
-            if saves[i][4:6] in ["11", "12"] and saves[i-1][4:6] in ["01", "02"]:
+            if saves[i][4:6] in ["09", "10", "11", "12"] and saves[i-1][4:6] in ["01", "02", "03", "04"]:
                 ui.addText("entferne " + saves[i] + " behalte " + saves[i-1])
                 if doIt:
                     shutil.rmtree(path + saves[i])
@@ -82,6 +82,7 @@ def copyTo(fromPath, aSave, toPath):
         currMonth = "0" + str(currMonth)
     else:
         lastMonth = str(currMonth-1)
+        currMonth = str(currMonth)
     if not os.path.exists(toPath + "\\" + aSave) and aSave[4:6] in [lastMonth, currMonth]:
         ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
         if doIt:
