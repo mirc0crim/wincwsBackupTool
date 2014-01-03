@@ -4,8 +4,8 @@ import shutil
 import ui
 
 nb024Path = "C:\\Dokumente und Einstellungen\\bizerba\\Desktop\\Datensicherungen"
-cardPath = "-:\\BACKUP\\"
-card2Path = "-:\\BACKUP\\"
+cardPath = "F:\\BACKUP\\"
+card2Path = "G:\\BACKUP\\"
 netPath = "I:\\Bizerba Sicherungen\\"
 
 doIt = False
@@ -66,7 +66,7 @@ def deleteDouble(path, saves):
         if i == 0:
             continue
         if saves[i-1][:3] == saves[i][:3]:
-            if saves[i][4:6] == "12" and saves[i-1][4:6] == "01":
+            if saves[i][4:6] in ["11", "12"] and saves[i-1][4:6] in ["01", "02"]:
                 ui.addText("entferne " + saves[i] + " behalte " + saves[i-1])
                 if doIt:
                     shutil.rmtree(path + saves[i])
@@ -76,9 +76,15 @@ def deleteDouble(path, saves):
                     shutil.rmtree(path + saves[i-1])
 
 def copyTo(fromPath, aSave, toPath):
-        if not os.path.exists(toPath + "\\" + aSave) and (aSave[4:6] == "01" or aSave[4:6] == "02"):
-            ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
-            if doIt:
-                shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
+    currMonth = datetime.datetime.now().month
+    if currMonth < 10:
+        lastMonth = "0" + str(currMonth-1)
+        currMonth = "0" + str(currMonth)
+    else:
+        lastMonth = str(currMonth-1)
+    if not os.path.exists(toPath + "\\" + aSave) and aSave[4:6] in [lastMonth, currMonth]:
+        ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
+        if doIt:
+            shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
 
 ui.create()

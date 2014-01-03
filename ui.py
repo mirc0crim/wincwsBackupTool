@@ -18,18 +18,19 @@ class MyFrame(wx.Frame):
         hSizer = wx.BoxSizer(wx.HORIZONTAL)
 
         # the combobox Control
-        driveList = ['E:', 'F:', 'G:', 'H:', '-']
+        driveList = ['E:', 'F:', 'G:', 'H:', 'I:', 'J:', 'K:']
         # dev 1
         self.textDrive1 = wx.StaticText(panel, label="Laufwerk Memocard 1")
         grid.Add(self.textDrive1, pos=(1,0))
         self.drive1 = wx.ComboBox(panel, size=(95, -1), choices=driveList, style=wx.CB_DROPDOWN)
+        self.drive1.SetValue(driveList[1])
         grid.Add(self.drive1, pos=(1,1))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox, self.drive1)
         # dev 2
         self.textDrive2 = wx.StaticText(panel, label="Laufwerk Memocard 2")
         grid.Add(self.textDrive2, pos=(2,0))
         self.drive2 = wx.ComboBox(panel, size=(95, -1), choices=driveList, style=wx.CB_DROPDOWN)
-        self.drive2.SetValue(driveList[-1])
+        self.drive2.SetValue(driveList[2])
         grid.Add(self.drive2, pos=(2,1))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox2, self.drive2)
 
