@@ -76,7 +76,8 @@ def deleteDouble(path, saves):
 
 def copyTo(fromPath, aSave, toPath):
     currMonth = datetime.datetime.now().month
-    if not os.path.exists(toPath + "\\" + aSave) and int(aSave[4:6]) <= currMonth:
+    if (not os.path.exists(toPath + "\\" + aSave) and int(aSave[4:6]) <= currMonth and
+            os.path.isdir(toPath + "\\" + aSave)):
         ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
         if doIt:
             shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
