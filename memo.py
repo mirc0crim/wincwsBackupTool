@@ -69,12 +69,10 @@ def deleteDouble(path, saves):
             currMonth = datetime.datetime.now().month
             if int(saves[i][4:6]) > currMonth:
                 ui.addText("entferne " + saves[i] + " behalte " + saves[i-1])
-                if doIt:
-                    shutil.rmtree(path + saves[i])
+                myRemove(path + saves[i])
             else:
                 ui.addText("entferne " + saves[i-1] + " behalte " + saves[i])
-                if doIt:
-                    shutil.rmtree(path + saves[i-1])
+                myRemove(path + saves[i-1])
 
 def copyTo(fromPath, aSave, toPath):
     currMonth = datetime.datetime.now().month
@@ -82,6 +80,13 @@ def copyTo(fromPath, aSave, toPath):
         ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
         if doIt:
             shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
+
+def myRemove(path):
+    if doIt:
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        else:
+            os.remove(path)
 
 def tryRepair():
     ui.addText("Versuche " + cardPath[:2] + " zu reparieren")
