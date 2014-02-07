@@ -6,7 +6,7 @@ import wx
 class MyFrame(wx.Frame):
 
     logger = None
-    l = ["Memocard 1 -> PC", "Memocard 1 -> Netz", "Memocard <-> Memocard"]
+    l = ["Memocard 1 -> PC", "Memocard 1 -> Netz", "Memocard <-> Memocard", "Reparieren"]
     
     def __init__(self, t):
         wx.Frame.__init__(self, None, title=t, size=(800,400))
@@ -40,7 +40,7 @@ class MyFrame(wx.Frame):
         grid.Add(self.doit, pos=(4,0), span=(1,2), flag=wx.BOTTOM, border=5)
         self.Bind(wx.EVT_CHECKBOX, self.EvtCheckBox, self.doit)
 
-        # 3 Buttons
+        # 4 Buttons
         self.button1 =wx.Button(panel, size=(150,30), label=MyFrame.l[0])
         self.Bind(wx.EVT_BUTTON, self.OnClick1, self.button1)
         grid.Add(self.button1, pos=(6,0))
@@ -50,6 +50,9 @@ class MyFrame(wx.Frame):
         self.button3 =wx.Button(panel, size=(150,30), label=MyFrame.l[2])
         self.Bind(wx.EVT_BUTTON, self.OnClick3, self.button3)
         grid.Add(self.button3, pos=(8,0))
+        self.button4 =wx.Button(panel, size=(150,30), label=MyFrame.l[3])
+        self.Bind(wx.EVT_BUTTON, self.OnClick4, self.button4)
+        grid.Add(self.button4, pos=(11,0))
 
         # A multiline TextCtrl
         MyFrame.logger = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY)
@@ -74,6 +77,8 @@ class MyFrame(wx.Frame):
         self.clicked(memo.memToNet, MyFrame.l[1])
     def OnClick3(self,event):
         self.clicked(memo.memToMem, MyFrame.l[2])
+    def OnClick4(self,event):
+        self.clicked(memo.tryRepair, MyFrame.l[3])
     def EvtCheckBox(self, event):
         if memo.doIt:
             memo.doIt = False

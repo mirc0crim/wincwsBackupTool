@@ -83,4 +83,9 @@ def copyTo(fromPath, aSave, toPath):
         if doIt:
             shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
 
+def tryRepair():
+    ui.addText("Versuche " + cardPath[:2] + " zu reparieren")
+    ui.addText("Bei Frage \"Ordner oder Verlorene Kette in Datei umwandeln\" mit \"J\" antworten")
+    os.system('chkdsk /f ' + cardPath[:2])
+
 ui.create()
