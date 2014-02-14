@@ -97,8 +97,7 @@ class MyFrame(wx.Frame):
             f.close()
         self.Destroy()
     def clicked(self, f, s):
-        if memo.verbose:
-            MyFrame.logger.AppendText("Starte " + s + "\n")
+        MyFrame.logger.AppendText(s + "\n")
         start = time.time()
         f()
         totalTime = round((time.time() - start)*10)/10

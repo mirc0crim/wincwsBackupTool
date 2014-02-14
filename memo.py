@@ -9,7 +9,6 @@ card2Path = "G:\\BACKUP\\"
 netPath = "I:\\Bizerba Sicherungen\\"
 
 doIt = False
-verbose = False
 
 nb024Save = False
 cardSave = False
@@ -54,8 +53,6 @@ def startLoad(path):
     saves = False
     try:
         saves = sorted(os.listdir(path))
-        if verbose:
-            ui.addText(path + " erreichbar")
     except WindowsError:
         ui.addText(path + " nicht erreichbar")
         assert False
@@ -65,28 +62,34 @@ def deleteDouble(path, saves):
     for i in range(len(saves)):
         if i == 0:
             continue
-        if saves[i-1][:3] == saves[i][:3]:
-            currMonth = datetime.datetime.now().month
-            if int(saves[i][4:6]) > currMonth:
-                ui.addText("entferne " + saves[i] + " behalte " + saves[i-1])
-                myRemove(path + saves[i])
+        if saves[i-1][:3] <> saves[i][:3]:
+            continue
+        currMonth = datetime.datetime.now().month
+        if int(saves[i][4:6]) > currMonth: # e.g: 505-0102 and 505-1214 after new year
+            if os.path.isdir(path + saves[i-1]):
+                myRemove(path + saves[i], saves[i], saves[i-1])
             else:
-                ui.addText("entferne " + saves[i-1] + " behalte " + saves[i])
-                myRemove(path + saves[i-1])
+                myRemove(path + saves[i-1], saves[i-1], saves[i])
+        else: # e.g: 505-0714 and 505-0721
+            if os.path.isdir(path + saves[i]):
+                myRemove(path + saves[i-1], saves[i-1], saves[i])
+            else:
+                myRemove(path + saves[i], saves[i], saves[i-1])
 
 def copyTo(fromPath, aSave, toPath):
     currMonth = datetime.datetime.now().month
     if (not os.path.exists(toPath + "\\" + aSave) and int(aSave[4:6]) <= currMonth and
-            os.path.isdir(toPath + "\\" + aSave)):
+            os.path.isdir(fromPath + "\\" + aSave)):
         ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
         if doIt:
             shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
 
-def myRemove(path):
+def myRemove(path, remName, keepName):
+    ui.addText("entferne " + remName + " behalte " + keepName)
     if doIt:
         if os.path.isdir(path):
             shutil.rmtree(path)
-        else:
+        if os.path.isfile(path):
             os.remove(path)
 
 def tryRepair():
