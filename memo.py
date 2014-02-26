@@ -64,6 +64,8 @@ def deleteDouble(path, saves):
             continue
         if saves[i-1][:3] <> saves[i][:3]:
             continue
+        if saves[i][4] <> "0" and saves[i][4] <> "1":
+            continue
         currMonth = datetime.datetime.now().month
         if int(saves[i][4:6]) > currMonth: # e.g: 505-0102 and 505-1214 after new year
             if os.path.isdir(path + saves[i-1]):
@@ -78,11 +80,11 @@ def deleteDouble(path, saves):
 
 def copyTo(fromPath, aSave, toPath):
     currMonth = datetime.datetime.now().month
-    if (not os.path.exists(toPath + "\\" + aSave) and int(aSave[4:6]) <= currMonth and
-            os.path.isdir(fromPath + "\\" + aSave)):
-        ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
-        if doIt:
-            shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
+    if (not os.path.exists(toPath + "\\" + aSave) and os.path.isdir(fromPath + "\\" + aSave)):
+        if ((aSave[4] <> "0" and aSave[4] <> "1") or int(aSave[4:6]) <= currMonth):
+            ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
+            if doIt:
+                shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
 
 def myRemove(path, remName, keepName):
     ui.addText("entferne " + remName + " behalte " + keepName)
