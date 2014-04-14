@@ -30,7 +30,7 @@ class MyFrame(wx.Frame):
         self.textDrive2 = wx.StaticText(panel, label="Laufwerk Memocard 2")
         grid.Add(self.textDrive2, pos=(2,0))
         self.drive2 = wx.ComboBox(panel, size=(95, -1), choices=driveList, style=wx.CB_DROPDOWN)
-        self.drive2.SetValue(driveList[2])
+        self.drive2.SetValue(driveList[3])
         grid.Add(self.drive2, pos=(2,1))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox2, self.drive2)
 

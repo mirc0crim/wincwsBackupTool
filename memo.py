@@ -3,24 +3,24 @@ import os
 import shutil
 import ui
 
-nb024Path = "C:\\Dokumente und Einstellungen\\bizerba\\Desktop\\Datensicherungen"
+nb023Path = "D:\\Datensicherungen"
 cardPath = "F:\\BACKUP\\"
-card2Path = "G:\\BACKUP\\"
+card2Path = "H:\\BACKUP\\"
 netPath = "I:\\Bizerba Sicherungen\\"
 
 doIt = False
 
-nb024Save = False
+nb023Save = False
 cardSave = False
 card2Save = False
 netSave = False
 
 def memToPc():
     cardSave = startLoad(cardPath)
-    nb024Save = startLoad(nb024Path)
+    nb023Save = startLoad(nb023Path)
     year = "\\" + str(datetime.datetime.now().year) + "\\"
     for i in range(len(cardSave)):
-        currPath = nb024Path + year + cardSave[i][:3]
+        currPath = nb023Path + year + cardSave[i][:3]
         copyTo(cardPath, cardSave[i], currPath)
     cardSave = startLoad(cardPath)
     deleteDouble(cardPath, cardSave)
