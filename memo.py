@@ -3,51 +3,18 @@ import os
 import shutil
 import ui
 
-nb023Path = "D:\\Datensicherungen"
-cardPath = "F:\\BACKUP\\"
-card2Path = "H:\\BACKUP\\"
-netPath = "I:\\Bizerba Sicherungen\\"
+locPath = "C:\\ProgramData\\BIZERBA\\WinCWS_SQL\\"
+locs = ["Basis", "Orello", "Lyss"]
+fName = "WINCWS.FDB"
+netPath = "I:\\Bizerba Sicherungen\\WinCWS DB Backups\\"
 
-doIt = False
-
-nb023Save = False
-cardSave = False
-card2Save = False
 netSave = False
+locSave = False
 
-def memToPc():
-    cardSave = startLoad(cardPath)
-    nb023Save = startLoad(nb023Path)
-    year = "\\" + str(datetime.datetime.now().year) + "\\"
-    for i in range(len(cardSave)):
-        currPath = nb023Path + year + cardSave[i][:3]
-        copyTo(cardPath, cardSave[i], currPath)
-    cardSave = startLoad(cardPath)
-    deleteDouble(cardPath, cardSave)
-
-def memToNet():
-    cardSave = startLoad(cardPath)
+def saveDB(i):
     netSave = startLoad(netPath)
-    for i in range(len(cardSave)):
-        copyTo(cardPath, cardSave[i], netPath)
-    netSave = startLoad(netPath)
-    deleteDouble(netPath, netSave)
-
-def memToMem():
-    # 1 -> 2
-    cardSave = startLoad(cardPath)
-    card2Save = startLoad(card2Path)
-    for i in range(len(cardSave)):
-        copyTo(cardPath, cardSave[i], card2Path)
-    card2Save = startLoad(card2Path)
-    deleteDouble(card2Path, card2Save)
-    # 2 -> 1
-    cardSave = startLoad(cardPath)
-    card2Save = startLoad(card2Path)
-    for i in range(len(card2Save)):
-        copyTo(card2Path, card2Save[i], cardPath)
-    cardSave = startLoad(cardPath)
-    deleteDouble(cardPath, cardSave)
+    locSave = startLoad(locPath)
+    copyTo(locPath + str(i) + locs[i-1] + "\\Database", fName, netPath + locs[i-1])
 
 def startLoad(path):
     saves = False
@@ -58,45 +25,13 @@ def startLoad(path):
         assert False
     return saves
 
-def deleteDouble(path, saves):
-    for i in range(len(saves)):
-        if i == 0:
-            continue
-        if saves[i-1][:3] <> saves[i][:3]:
-            continue
-        if saves[i][4] <> "0" and saves[i][4] <> "1":
-            continue
-        currMonth = datetime.datetime.now().month
-        if int(saves[i][4:6]) > currMonth: # e.g: 505-0102 and 505-1214 after new year
-            if os.path.isdir(path + saves[i-1]):
-                myRemove(path + saves[i], saves[i], saves[i-1])
-            else:
-                myRemove(path + saves[i-1], saves[i-1], saves[i])
-        else: # e.g: 505-0714 and 505-0721
-            if os.path.isdir(path + saves[i]):
-                myRemove(path + saves[i-1], saves[i-1], saves[i])
-            else:
-                myRemove(path + saves[i], saves[i], saves[i-1])
-
-def copyTo(fromPath, aSave, toPath):
-    currMonth = datetime.datetime.now().month
-    if (not os.path.exists(toPath + "\\" + aSave) and os.path.isdir(fromPath + "\\" + aSave)):
-        if ((aSave[4] <> "0" and aSave[4] <> "1") or int(aSave[4:6]) <= currMonth):
-            ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
-            if doIt:
-                shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
-
-def myRemove(path, remName, keepName):
-    ui.addText("entferne " + remName + " behalte " + keepName)
-    if doIt:
-        if os.path.isdir(path):
-            shutil.rmtree(path)
-        if os.path.isfile(path):
-            os.remove(path)
-
-def tryRepair():
-    ui.addText("Versuche " + cardPath[:2] + " zu reparieren")
-    ui.addText("Bei Frage \"Ordner oder Verlorene Kette in Datei umwandeln\" mit \"J\" antworten")
-    os.system('chkdsk /f ' + cardPath[:2])
+def copyTo(fromPath, fName, toPath):
+    currYear = str(datetime.datetime.now().year)
+    currMonth = "0" + str(datetime.datetime.now().month)
+    currDay = "0" + str(datetime.datetime.now().day)
+    currDate = currYear + currMonth[:2] + currDay[:2]
+    ui.addText("kopiere " + fName + " nach " + toPath)
+    newName = fName[:-4] + " " + currDate + fName[-4:]
+    shutil.copy(fromPath + "\\" + fName, toPath + "\\" + newName)
 
 ui.create()
