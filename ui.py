@@ -10,7 +10,7 @@ class MyFrame(wx.Frame):
     l = ["Basis Sichern", "Orello Sichern", "Lyss Sichern", "Basis Wiederherstellen", "Orello Wiederherstellen", "Lyss Wiederherstellen"]
     
     def __init__(self, t):
-        wx.Frame.__init__(self, None, title=t, size=(800,400))
+        wx.Frame.__init__(self, None, title=t, size=(1000,400))
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
         panel = wx.Panel(self)
