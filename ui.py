@@ -31,17 +31,14 @@ class MyFrame(wx.Frame):
         # 3 comboboxes for choosing
         saveFiles1 = sorted(os.listdir(memo.netPath + "Basis\\"))
         self.files1 = wx.ComboBox(panel, size=(150, -1), choices=saveFiles1, style=wx.CB_DROPDOWN)
-        self.files1.SetValue(saveFiles1[0])
         grid.Add(self.files1, pos=(5,0))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox1, self.files1)
         saveFiles2 = sorted(os.listdir(memo.netPath + "Orello\\"))
         self.files2 = wx.ComboBox(panel, size=(150, -1), choices=saveFiles2, style=wx.CB_DROPDOWN)
-        self.files2.SetValue(saveFiles2[0])
         grid.Add(self.files2, pos=(5,1))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox2, self.files2)
         saveFiles3 = sorted(os.listdir(memo.netPath + "Lyss\\"))
         self.files3 = wx.ComboBox(panel, size=(150, -1), choices=saveFiles3, style=wx.CB_DROPDOWN)
-        self.files3.SetValue(saveFiles3[0])
         grid.Add(self.files3, pos=(5,2))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox3, self.files3)
         # 3 Buttons for recovering
@@ -87,12 +84,18 @@ class MyFrame(wx.Frame):
     def OnClick7(self,event):
         memo.recName = self.files1.GetValue()
         self.clicked(memo.delDB, 1, MyFrame.l[6])
+        self.files1.Clear()
+        self.files1.AppendItems(sorted(os.listdir(memo.netPath + "Basis\\")))
     def OnClick8(self,event):
         memo.recName = self.files2.GetValue()
         self.clicked(memo.delDB, 2, MyFrame.l[7])
+        self.files2.Clear()
+        self.files2.AppendItems(sorted(os.listdir(memo.netPath + "Orello\\")))
     def OnClick9(self,event):
         memo.recName = self.files3.GetValue()
         self.clicked(memo.delDB, 3, MyFrame.l[8])
+        self.files3.Clear()
+        self.files3.AppendItems(sorted(os.listdir(memo.netPath + "Lyss\\")))
     def EvtComboBox1(self, event):
         MyFrame.logger.AppendText("Sicherungsdatei Basis: \n")
         memo.recName = event.GetString()
