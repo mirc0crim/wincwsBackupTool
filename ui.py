@@ -7,7 +7,7 @@ import memo
 class MyFrame(wx.Frame):
 
     logger = None
-    l = ["Basis Sichern", "Orello Sichern", "Lyss Sichern", "Basis Wiederherstellen", "Orello Wiederherstellen", "Lyss Wiederherstellen"]
+    l = ["Basis Sichern", "Orello Sichern", "Lyss Sichern", "Basis Wiederherstellen", "Orello Wiederherstellen", "Lyss Wiederherstellen", "Basis entfernen", "Orello entfernen", "Lyss entfernen"]
     
     def __init__(self, t):
         wx.Frame.__init__(self, None, title=t, size=(1000,400))
@@ -54,6 +54,16 @@ class MyFrame(wx.Frame):
         self.recoverButton3 =wx.Button(panel, size=(150,30), label=MyFrame.l[5])
         self.Bind(wx.EVT_BUTTON, self.OnClick6, self.recoverButton3)
         grid.Add(self.recoverButton3, pos=(6,2))
+        # 3 Buttons for deleting
+        self.delButton1 =wx.Button(panel, size=(150,30), label=MyFrame.l[6])
+        self.Bind(wx.EVT_BUTTON, self.OnClick7, self.delButton1)
+        grid.Add(self.delButton1, pos=(7,0))
+        self.delButton2 =wx.Button(panel, size=(150,30), label=MyFrame.l[7])
+        self.Bind(wx.EVT_BUTTON, self.OnClick8, self.delButton2)
+        grid.Add(self.delButton2, pos=(7,1))
+        self.delButton3 =wx.Button(panel, size=(150,30), label=MyFrame.l[8])
+        self.Bind(wx.EVT_BUTTON, self.OnClick9, self.delButton3)
+        grid.Add(self.delButton3, pos=(7,2))
 
         # A multiline TextCtrl
         MyFrame.logger = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY)
@@ -74,16 +84,25 @@ class MyFrame(wx.Frame):
         self.clicked(memo.recoverDB, 2, MyFrame.l[4])
     def OnClick6(self,event):
         self.clicked(memo.recoverDB, 3, MyFrame.l[5])
+    def OnClick7(self,event):
+        memo.recName = self.files1.GetValue()
+        self.clicked(memo.delDB, 1, MyFrame.l[6])
+    def OnClick8(self,event):
+        memo.recName = self.files2.GetValue()
+        self.clicked(memo.delDB, 2, MyFrame.l[7])
+    def OnClick9(self,event):
+        memo.recName = self.files3.GetValue()
+        self.clicked(memo.delDB, 3, MyFrame.l[8])
     def EvtComboBox1(self, event):
-        MyFrame.logger.AppendText("Wiederherstellungsdatei Basis: \n")
+        MyFrame.logger.AppendText("Sicherungsdatei Basis: \n")
         memo.recName = event.GetString()
         MyFrame.logger.AppendText(event.GetString() + " \n")
     def EvtComboBox2(self, event):
-        MyFrame.logger.AppendText("Wiederherstellungsdatei Orello: \n")
+        MyFrame.logger.AppendText("Sicherungsdatei Orello: \n")
         memo.recName = event.GetString()
         MyFrame.logger.AppendText(event.GetString() + " \n")
     def EvtComboBox3(self, event):
-        MyFrame.logger.AppendText("Wiederherstellungsdatei Lyss: \n")
+        MyFrame.logger.AppendText("Sicherungsdatei Lyss: \n")
         memo.recName = event.GetString()
         MyFrame.logger.AppendText(event.GetString() + " \n")
     def OnClose(self, event):

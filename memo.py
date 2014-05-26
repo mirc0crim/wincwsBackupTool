@@ -25,6 +25,12 @@ def recoverDB(i):
     if not runs():
         recoverTo(netPath + locs[i-1], recName, fName, locPath + str(i) + locs[i-1] + "\\Database")
 
+def delDB(i):
+    netSave = startLoad(netPath)
+    if not runs():
+        ui.addText("entferne " + recName)
+        os.remove(netPath + locs[i-1] + "\\" + recName)
+
 def startLoad(path):
     saves = False
     try:
