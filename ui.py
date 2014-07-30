@@ -70,10 +70,13 @@ class MyFrame(wx.Frame):
         panel.SetSizerAndFit(hSizer)
 
     def OnClick1(self,event):
+        MyFrame.logger.AppendText("Bitte 20s warten.\n")
         self.clicked(memo.saveDB, 1, MyFrame.l[0])
     def OnClick2(self,event):
+        MyFrame.logger.AppendText("Bitte 15s warten.\n")
         self.clicked(memo.saveDB, 2, MyFrame.l[1])
     def OnClick3(self,event):
+        MyFrame.logger.AppendText("Bitte 15s warten.\n")
         self.clicked(memo.saveDB, 3, MyFrame.l[2])
     def OnClick4(self,event):
         self.clicked(memo.recoverDB, 1, MyFrame.l[3])
@@ -123,7 +126,7 @@ class MyFrame(wx.Frame):
         start = time.time()
         f(i)
         totalTime = round((time.time() - start)*10)/10
-        MyFrame.logger.AppendText("Fertig in " + str(totalTime) + " Sekunden\n")
+        MyFrame.logger.AppendText("Fertig in " + str(totalTime) + " Sekunden\n\n")
 
 def addText(s):
     MyFrame.logger.AppendText(s + "\n")
