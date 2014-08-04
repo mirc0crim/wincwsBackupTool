@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 import datetime
 import os
 import shutil
@@ -9,6 +10,8 @@ locs = ["Basis", "Orello", "Lyss"]
 fName = "WINCWS.FDB"
 recName = ""
 netPath = "I:\\Bizerba Sicherungen\\WinCWS DB Backups\\"
+locBldPath = "D:\\Bizerba_Daten\\LabelDesignerProjekte\\"
+netBldPath = "I:\\Bizerba Sicherungen\\LabelDesigner\\"
 
 netSave = False
 locSave = False
@@ -27,10 +30,20 @@ def recoverDB(i):
 
 def delDB(i):
     netSave = startLoad(netPath)
+    if len(recName) < 8:
+        ui.addText("Zuerst Name der Sicherung angeben")
+        return
     if not runs():
         ui.addText("entferne " + recName)
         os.remove(netPath + locs[i-1] + "\\" + recName)
 
+def layout(i):
+    bldFiles = [f for f in os.listdir(locBldPath) if f[-4:] == ".bld"]
+    for f in bldFiles:
+        name = f.replace("ü", "ue")
+        ui.addText("kopiere " + name + " nach " + netBldPath)
+        shutil.copy(locBldPath + "\\" + f, netBldPath + "\\" + f)
+    
 def startLoad(path):
     saves = False
     try:
@@ -51,6 +64,9 @@ def saveTo(fromPath, fName, toPath):
     ui.addText("Sicherungsname: " + newName)
 
 def recoverTo(fromPath, recName, fName, toPath):
+    if len(recName) < 8:
+        ui.addText("Zuerst Name der Sicherung angeben")
+        return
     ui.addText("kopiere " + recName + " nach " + toPath)
     shutil.copy(fromPath + "\\" + recName, toPath + "\\" + fName)
 
@@ -60,6 +76,9 @@ def runs():
     for l in proc.stdout:
         if "wincws.exe" in l.lower():
             ui.addText("WinCWS zuerst schliessen")
+            return True
+        if "bld.exe" in l.lower():
+            ui.addText("Label Designer zuerst schliessen")
             return True
     return False
 
