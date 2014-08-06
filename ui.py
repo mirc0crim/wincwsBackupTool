@@ -8,7 +8,7 @@ import memo
 class MyFrame(wx.Frame):
 
     logger = None
-    l = ["Basis Sichern", "Orello Sichern", "Lyss Sichern", "Basis Wiederherstellen", "Orello Wiederherstellen", "Lyss Wiederherstellen", "Basis entfernen", "Orello entfernen", "Lyss entfernen", "Layout kopieren"]
+    l = ["Basis Sichern", "Orello Sichern", "Lyss Sichern", "Basis Wiederherstellen", "Orello Wiederherstellen", "Lyss Wiederherstellen", "Basis entfernen", "Orello entfernen", "Lyss entfernen", "Layout sichern"]
     
     def __init__(self, t):
         wx.Frame.__init__(self, None, title=t, size=(1000,400))
@@ -114,6 +114,7 @@ class MyFrame(wx.Frame):
         self.files3.Clear()
         self.files3.AppendItems(sorted(os.listdir(memo.netPath + "Lyss\\")))
     def OnClick10(self,event):
+        MyFrame.logger.AppendText("Bitte 7s warten.\n")
         self.clicked(memo.layout, -1, MyFrame.l[9])
     def EvtComboBox1(self, event):
         MyFrame.logger.AppendText("Sicherungsdatei Basis: \n")
